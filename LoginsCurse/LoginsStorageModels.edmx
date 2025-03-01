@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LoginsStorageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Logins">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="SiteNameId" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsEncrypted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SitesAddresses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteAddress" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SitesNames">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Logins_SitesAddresses">
+          <End Role="SitesAddresses" Type="Self.SitesAddresses" Multiplicity="1" />
+          <End Role="Logins" Type="Self.Logins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SitesAddresses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logins_SitesNames">
+          <End Role="SitesNames" Type="Self.SitesNames" Multiplicity="0..1" />
+          <End Role="Logins" Type="Self.Logins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SitesNames">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="SiteNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LoginsStorageModelStoreContainer">
+          <EntitySet Name="Logins" EntityType="Self.Logins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SitesAddresses" EntityType="Self.SitesAddresses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SitesNames" EntityType="Self.SitesNames" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Logins_SitesAddresses" Association="Self.FK_Logins_SitesAddresses">
+            <End Role="SitesAddresses" EntitySet="SitesAddresses" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logins_SitesNames" Association="Self.FK_Logins_SitesNames">
+            <End Role="SitesNames" EntitySet="SitesNames" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LoginsStorageModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteId" Type="Int32" Nullable="false" />
+          <Property Name="SiteNameId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsEncrypted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SitesAddress" Relationship="Self.FK_Logins_SitesAddresses" FromRole="Logins" ToRole="SitesAddresses" />
+          <NavigationProperty Name="SitesName" Relationship="Self.FK_Logins_SitesNames" FromRole="Logins" ToRole="SitesNames" />
+        </EntityType>
+        <EntityType Name="SitesAddress">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Logins" Relationship="Self.FK_Logins_SitesAddresses" FromRole="SitesAddresses" ToRole="Logins" />
+        </EntityType>
+        <EntityType Name="SitesName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Logins" Relationship="Self.FK_Logins_SitesNames" FromRole="SitesNames" ToRole="Logins" />
+        </EntityType>
+        <Association Name="FK_Logins_SitesAddresses">
+          <End Role="SitesAddresses" Type="Self.SitesAddress" Multiplicity="1" />
+          <End Role="Logins" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SitesAddresses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="SiteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logins_SitesNames">
+          <End Role="SitesNames" Type="Self.SitesName" Multiplicity="0..1" />
+          <End Role="Logins" Type="Self.Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SitesNames">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logins">
+              <PropertyRef Name="SiteNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LoginsStorageContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Logins" EntityType="Self.Login" />
+          <EntitySet Name="SitesAddresses" EntityType="Self.SitesAddress" />
+          <EntitySet Name="SitesNames" EntityType="Self.SitesName" />
+          <AssociationSet Name="FK_Logins_SitesAddresses" Association="Self.FK_Logins_SitesAddresses">
+            <End Role="SitesAddresses" EntitySet="SitesAddresses" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logins_SitesNames" Association="Self.FK_Logins_SitesNames">
+            <End Role="SitesNames" EntitySet="SitesNames" />
+            <End Role="Logins" EntitySet="Logins" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LoginsStorageModelStoreContainer" CdmEntityContainer="LoginsStorageContext">
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="LoginsStorageModel.Login">
+              <MappingFragment StoreEntitySet="Logins">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="SiteNameId" ColumnName="SiteNameId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Login1" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsEncrypted" ColumnName="IsEncrypted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SitesAddresses">
+            <EntityTypeMapping TypeName="LoginsStorageModel.SitesAddress">
+              <MappingFragment StoreEntitySet="SitesAddresses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SiteAddress" ColumnName="SiteAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SitesNames">
+            <EntityTypeMapping TypeName="LoginsStorageModel.SitesName">
+              <MappingFragment StoreEntitySet="SitesNames">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

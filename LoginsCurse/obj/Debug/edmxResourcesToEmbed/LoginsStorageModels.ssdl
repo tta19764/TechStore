@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LoginsStorageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Logins">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SiteId" Type="int" Nullable="false" />
+    <Property Name="SiteNameId" Type="int" />
+    <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsEncrypted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SitesAddresses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SiteAddress" Type="nvarchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SitesNames">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SiteName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Logins_SitesAddresses">
+    <End Role="SitesAddresses" Type="Self.SitesAddresses" Multiplicity="1" />
+    <End Role="Logins" Type="Self.Logins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SitesAddresses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Logins">
+        <PropertyRef Name="SiteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Logins_SitesNames">
+    <End Role="SitesNames" Type="Self.SitesNames" Multiplicity="0..1" />
+    <End Role="Logins" Type="Self.Logins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SitesNames">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Logins">
+        <PropertyRef Name="SiteNameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LoginsStorageModelStoreContainer">
+    <EntitySet Name="Logins" EntityType="Self.Logins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SitesAddresses" EntityType="Self.SitesAddresses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SitesNames" EntityType="Self.SitesNames" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Logins_SitesAddresses" Association="Self.FK_Logins_SitesAddresses">
+      <End Role="SitesAddresses" EntitySet="SitesAddresses" />
+      <End Role="Logins" EntitySet="Logins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Logins_SitesNames" Association="Self.FK_Logins_SitesNames">
+      <End Role="SitesNames" EntitySet="SitesNames" />
+      <End Role="Logins" EntitySet="Logins" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

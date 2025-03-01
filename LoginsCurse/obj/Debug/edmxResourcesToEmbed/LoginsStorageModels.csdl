@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LoginsStorageModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SiteId" Type="Int32" Nullable="false" />
+    <Property Name="SiteNameId" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Login1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsEncrypted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="SitesAddress" Relationship="Self.FK_Logins_SitesAddresses" FromRole="Logins" ToRole="SitesAddresses" />
+    <NavigationProperty Name="SitesName" Relationship="Self.FK_Logins_SitesNames" FromRole="Logins" ToRole="SitesNames" />
+  </EntityType>
+  <EntityType Name="SitesAddress">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SiteAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Logins" Relationship="Self.FK_Logins_SitesAddresses" FromRole="SitesAddresses" ToRole="Logins" />
+  </EntityType>
+  <EntityType Name="SitesName">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Logins" Relationship="Self.FK_Logins_SitesNames" FromRole="SitesNames" ToRole="Logins" />
+  </EntityType>
+  <Association Name="FK_Logins_SitesAddresses">
+    <End Role="SitesAddresses" Type="Self.SitesAddress" Multiplicity="1" />
+    <End Role="Logins" Type="Self.Login" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SitesAddresses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Logins">
+        <PropertyRef Name="SiteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Logins_SitesNames">
+    <End Role="SitesNames" Type="Self.SitesName" Multiplicity="0..1" />
+    <End Role="Logins" Type="Self.Login" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SitesNames">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Logins">
+        <PropertyRef Name="SiteNameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LoginsStorageContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Logins" EntityType="Self.Login" />
+    <EntitySet Name="SitesAddresses" EntityType="Self.SitesAddress" />
+    <EntitySet Name="SitesNames" EntityType="Self.SitesName" />
+    <AssociationSet Name="FK_Logins_SitesAddresses" Association="Self.FK_Logins_SitesAddresses">
+      <End Role="SitesAddresses" EntitySet="SitesAddresses" />
+      <End Role="Logins" EntitySet="Logins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Logins_SitesNames" Association="Self.FK_Logins_SitesNames">
+      <End Role="SitesNames" EntitySet="SitesNames" />
+      <End Role="Logins" EntitySet="Logins" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

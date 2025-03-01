@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LoginsStorageModelStoreContainer" CdmEntityContainer="LoginsStorageContext">
+    <EntitySetMapping Name="Logins">
+      <EntityTypeMapping TypeName="LoginsStorageModel.Login">
+        <MappingFragment StoreEntitySet="Logins">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Login1" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SitesAddresses">
+      <EntityTypeMapping TypeName="LoginsStorageModel.SitesAddress">
+        <MappingFragment StoreEntitySet="SitesAddresses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SiteAddress" ColumnName="SiteAddress" />
+          <ScalarProperty Name="SiteNameId" ColumnName="SiteNameId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SitesNames">
+      <EntityTypeMapping TypeName="LoginsStorageModel.SitesName">
+        <MappingFragment StoreEntitySet="SitesNames">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
